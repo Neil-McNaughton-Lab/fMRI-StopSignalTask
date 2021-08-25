@@ -1,6 +1,3 @@
-#![Circle Array](doc/figures/fullsetup.png?raw=true "SST flowchart")
-#![Circle Array](doc/figures/builder_codeblock.png?raw=true "Psychopy SST")
-
 # Stop Signal Task - fMRI
 ## Overview
 Welcome! This is Neil McNaughton Lab's Stop Signal Task (SST) experiment (see 
@@ -46,3 +43,6 @@ default) before continuing the experiment.
 Additionally, the left and right response keys are mapped to `2` & `3` for 
 right handed participants and `7` & `8` for left handed participants. 
 <!---These can be changed in the code if necessary (see wiki [link]).--->
+
+<!---![Circle Array](doc/figures/fullsetup.png?raw=true "SST flowchart")--->
+<!---![Circle Array](doc/figures/builder_codeblock.png?raw=true "Psychopy SST")--->
