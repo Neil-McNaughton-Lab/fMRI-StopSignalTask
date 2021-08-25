@@ -1,17 +1,17 @@
 # Stop Signal Task - fMRI
-## Overview
-Welcome! This is Neil McNaughton Lab's Stop Signal Task (SST) experiment (see 
-the below figure). This SST was created with the intention of being used in 
-conjunction with functional magnetic resonance imaging (fMRI). 
+## Overview:
+Welcome! This is Professor Neil McNaughton's Lab's Stop Signal Task (SST) 
+experiment (see the below figure). This SST was created with the intention of 
+being used in conjunction with functional magnetic resonance imaging (fMRI). 
 
-As is standard with SSTs this task can broken into two types of trials: 
+As is standard with SSTs this task can be broken into two types of trials: 
 go trials and stop trials. A single go trial our SST consists of the 
-following steps: a variable inter-trial interval 
-(ITI), a 0.5 s attention stimulus, a 1 s directional stimulus, and a 0.5 s 
-feedback stimulus. The ITI times are a set of values, between 0.5 and 4 s, 
-which were sampled from a logarithmic distribution (t(x) = -ln(x)/λ). While 
-these times will appear random to a participant engaging with the task, they 
-are fixed across all trials. 
+following steps: a variable inter-trial interval (ITI), a 0.5 s attention 
+stimulus, a 1 s directional stimulus, and a 0.5 s feedback stimulus. The ITI 
+times are a set of values, between 0.5 and 4 s, which were sampled from a 
+logarithmic distribution (*t(x) = -ln(x)/λ*). While these times will appear 
+random to a participant engaging with the task, they are fixed across all 
+trials. 
 
 In the case of stop trials, all of the steps are the same with the exception
 of the directional stimulus where a stop sound will play some time after the 
@@ -21,6 +21,7 @@ the onset of the stimuli and the stop sound, known as the stop signal delay
 (SSD), is drawn from one of three staircase designs.
 
 ![SST Flowchart](doc/figures/SST_flow_2021-07-20.png?raw=true "SST flowchart")
+
 
 
 ## Installation:
@@ -33,7 +34,7 @@ PsychoPy version:" option still works).
 Once PsychoPy3 is installed you can open `SST.psyexp` and run the task. If you 
 installed a newer version of PsychoPy3 you may need to change the PsychoPy 
 version being used to run the task. This should be located under: 
-`experiment settings`(the gear icon) `-> Basic -> Use PsychoPy version`.
+__experiment settings__ (the gear icon) __-> Basic -> Use PsychoPy version__.
 
 As stated above, this SST was created with the intention of being used in 
 conjunction with functional magnetic resonance imaging (fMRI). As such, in 
@@ -44,5 +45,20 @@ Additionally, the left and right response keys are mapped to `2` & `3` for
 right handed participants and `7` & `8` for left handed participants. 
 <!---These can be changed in the code if necessary (see wiki [link]).--->
 
-<!---![Circle Array](doc/figures/fullsetup.png?raw=true "SST flowchart")--->
-<!---![Circle Array](doc/figures/builder_codeblock.png?raw=true "Psychopy SST")--->
+Ensure your conditions file has been filled out correctly. 
+The conditions file is used to define the trial blocks and the type of trial 
+presented to the participant. In particular trials labelled `0` under 
+`TrialTypes` will be __go__ trials, while any other integer will be a __stop__ 
+trials with each number representing a unique staircase. Each block is defined 
+by a set of repeating integers under the `Block` header. For example, 
+*1, 1, 1, 2, 2, 2, 3, 3, 3* indicates three blocks: 1, 2, and 3. These integers 
+must be in ascending order. The `BlockType` column is used to indicate whether 
+or not a block is a practise run or not. This is important as practise blocks
+will not wait for a `=` keyboard press to trigger them and will not have stop 
+trials. To indicated a block as a practise block simply insert the keyword 
+`practice` under the `BlockType` column, next to the first integer in the block.
+Any other keyword will be treated as "not-a-practise." So I like to use `fMRI`.
+Finally, L2R_ratio column is used to indicate the ratio of left stimuli to right 
+stimuli you would like to appear during each block. Leaving this column empty 
+will default practise blocks to 0.5 (or a 50:50 split) and stop blocks to a 
+random ratio.
