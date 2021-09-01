@@ -58,7 +58,7 @@ will not wait for a `=` keyboard press to trigger them and will not have stop
 trials. To indicated a block as a practise block simply insert the keyword 
 `practice` under the `BlockType` column, next to the first integer in the block.
 Any other keyword will be treated as "not-a-practise." So I like to use `fMRI`.
-Finally, L2R_ratio column is used to indicate the ratio of left stimuli to right 
-stimuli you would like to appear during each block. Leaving this column empty 
-will default practise blocks to 0.5 (or a 50:50 split) and stop blocks to a 
-random ratio.
+Finally, the `L2R_ratio` column is used to indicate the ratio of left stimuli 
+to right stimuli you would like to appear during each block. Leaving this 
+column empty will default practise blocks to *0.5* (or a *50:50* split) and 
+stop blocks to a random ratio.
