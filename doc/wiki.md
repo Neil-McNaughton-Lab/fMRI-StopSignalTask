@@ -57,59 +57,34 @@ Properties are where the settings of a component are viewed and edited.
 These are accessed by clicking on the component in the builder.
 
 
+
 ## Section 1 - Sequence Elements
-### 1.1 – Variable Subject Wait Time, 6]:
-This section has the subject wait for a duration which randomly sampled from 
-the logarithmic function
-<p align="center">
-    <i>t(x) = -ln(⁡x)/λ</i>,
-</p>
-such that *t(x) ∈ [ISImin, ISImax]* and each sampled value is a integer 
-multiple of ISIfactor. Additionally, the scaling factor, *λ*, is chosen via 
-*λ = meanISItime/1000*. Figure 3 shows an example of *10,000* samples 
-using *t(x) ∈ [0.5, 4]* ms,  *ISIfactor = 125* ms, and, 
-*meanISItime = 1000* ms.
+
+### 1.1 Pre-trial & pre-block processing:
+Before each trial, and each block, there are some things which aren't shown in 
+Figure 1 that need to be determined, such as:
+    I.   Preparing SSD staircases    
+    II.  Choosing display messages
+    III. Average participant reaction time
+    IV.  Running a pre-block countdown so participants aren't caught off guard
+
+#### I. Preparing SSD staircases:
+T
+
+Following each trial the SSD staircase that was used is adjusted in a 0.05 s 
+increment (see section 1.5). Increasing the delay time if the subject answers 
+a stop trail correctly and decraesing it if they answer incorrectly.
+
+#### II. Choosing display messages:
+T
+
+#### III. Average participant reaction time:
+T
+
+#### IV. Running a pre-block countdown:
+T
 
 
-![ISI values](doc/figures/ISIvalues.png?raw=true "ISI values")
-<p align="center">
-    Figure 3<br />  
-    A “typical” sample set of the logarithmic function used to determine our 
-    variable ISI times (*100,000* samples).
-</p>
-
-#### Builder implementation:
-The sections of code used to sample and implement said samples are located under:
-	'SETTINGS' -> "user_settings" -> ‘”Before Experiment”’
-	'Instructions' -> "run_on_start" -> ‘”Before Experiment”’ 
-	'Pre_Trial' -> "pre_trial_stim”  -> ‘”Begin Routine”’
-	'ISI' -> "blank_ISI_stim"
-
-##### 'SETTINGS' -> "user_settings" -> ‘”Before Experiment”’:
-Under Inter-Stimulus Interval settings, this code block holds the user 
-settings for the sampling of the log function above:
-```python
-# Inter-Stimulus Interval settings (see 'Instructions' -> "run_on_start"):
-meanISItime = 1000    # ms
-ISImin      = 500     # ms
-ISImax      = 4000    # ms
-ISIfactor   = 125     # ms
-```
-
-##### 'Instructions' -> "run_on_start" -> ‘”Before Experiment”’:
-Under Functions, the python function `sample_logdist()` performs a single 
-sample of the above logarithmic function. Under `## Generating ISI times… `
-the number of trials being used in the experiment is determined and the 
-function `sample_logdist()` is called to generate an array of ISIs for each.
-
-##### 'Pre_Trial' -> "pre_trial_prep" -> ‘”Begin Routine”’:
-Under the section `# Call ISI time` the current trial number is used to call 
-the appropriate ISI time so it may be used in the following Routine.
-
-##### 'ISI' -> "blank_ISI_stim":
-This black polygon (which is invisible to the subject on the task’s black 
-background) displays for the duration called during the 'Pre_Trial' routine 
-above.
 
 
 
@@ -171,7 +146,10 @@ III: From the moment the arrow stimuli appear PsychoPy will wait for a valid
 keypress which will correspond to either *left* or *right*. Which keys are 
 valid depends on the subject's handedness. Once a key is pressed the 
 __Routine__ moves to the next __Routine__ (4], see section 1.4); removing the 
-stimuli and green circle in the process.
+stimuli and green circle in the process. Additionally, when a key press is 
+made the reaction time is recorded. This reaction time, *t_r*, is used (see 
+section 1.4) to create an Inter-Stimulus Interval (ISI) between the arrow 
+stimuli and the feedback equal to *1* s *- t_r*.
 
 IV: If the trail presented to the subject is a stop trial then a stop sound
 will play after the participant's SSD time has elapsed.
@@ -244,7 +222,7 @@ for stop trials.
 ##### 'go_stim' -> "gokey_resp":
 The properties menu for the "gokey_resp" key-press object houses 
 additional settings such as duration, allowed keys, and whether or not to 
-force the end of the Routine on a key press.
+force the end of the Routine on a key press. 
 
 ##### 'stop_stim' -> "stopkey_resp":
 The properties menu for the "stopkey_resp" key-press object houses 
@@ -264,12 +242,11 @@ found under `# Default sound values`. These can be overridden if the external
 sound function `TestSound()` is called (see Chapter 2 Section 2).
 
 The delay before the stop sound is played following the arrow stimuli's onset
-is called from the participant's SSD staircases. These are initally generated 
-in 'Rest_Period' -> "block_prep" -> ‘”Begin Routine”’ under 
+is called from the participant's stop signal delay (SSD) staircases. These are 
+initally generated in 'Rest_Period' -> "block_prep" -> ‘”Begin Routine”’ under 
 `## Average the subject's last 16 RT's and calculate starting SSDs` and 
 actively managed in 'stop_feedback' -> "checkKeypress_stop" -> 
 ‘”Begin Routine”’ (see 5] - section 1.4).
-
 
 ##### 'stop_stim' -> "stop_sound":
 The properties menu for the "stop_sound" sound object houses the duration 
@@ -280,10 +257,121 @@ outlined  above.
 
 
 
-### 1.4 – ISI delay & feedback, 4, 5]:
+### 1.4 – ISI delay, 4]:
+Once the stimuli has been shown to the subject there is a short ISI whose time 
+is chosen to enusre the time from the onset of the arrow stimuli to the onset
+of the feedback stimuli is always 1 s. In PsychoPy this is achieved by 
+calculating the remaining time by subtracting the participants reaction time 
+from 1 s and delaying the onset of the feedback by this duration.
+
+#### Builder implementation:
+The sections that control the stop sound settings are found under
+	'go_feedback' -> "checkKeypress_go" -> ‘”Begin Routine”’
+for go trials and
+	'stop_feedback' -> "checkKeypress_stop" -> ‘”Begin Routine”’
+for stop trials.
+
+##### 'go_feedback' -> "checkKeypress_go" -> ‘”Begin Routine”’:
+The ISI time is computed as described above in the section of code labeled
+`#Compute ISI wait time after subject response`.
+
+##### 'stop_feedback' -> "checkKeypress_stop" -> ‘”Begin Routine”’:
+As for the go trials, the ISI time is computed as described above in the 
+section of code labeled `#Compute ISI wait time after subject response`.
 
 
 
+
+
+### 1.5 – Feedback, 5]:
+Once the 1 second wait time is over, the participant recieves feedback based 
+on whether or not they responded to the SST correctly. That is, pressing the 
+correct direction key for go trials and not pressing anything for stop trials.
+
+
+#### Builder implementation:
+The sections that control the stop sound settings are found under
+	'go_feedback' -> "checkKeypress_go" -> ‘”Begin Routine”’
+	'go_feedback' -> "go_feedback_img"
+for go trials and
+	'stop_feedback' -> "checkKeypress_stop" -> ‘”Begin Routine”’
+	'stop_feedback' -> "stop_feedback_img"
+for stop trials.
+
+##### 'go_feedback' -> "checkKeypress_go" -> ‘”Begin Routine”’:
+The chunk of code that determines what feedback the participant recieves is 
+found under: `## Determine feedback:`.
+
+##### 'stop_feedback' -> "checkKeypress_go" -> ‘”Begin Routine”’:
+Similarly, the chunk of code that determines what feedback the participant 
+recieves during stop trials is found under: `## Determine feedback:`. However,
+this section also houses where the SSD time is adjusted, as mentioned in 
+section 1.1.
+
+##### 'go_feedback' -> "go_feedback_img":
+The properties menu for the "go_feedback_img" image object houses the duration,
+size, and poition settings.
+
+##### 'stop_feedback' -> "stop_feedback_img":
+The properties menu for the "stop_feedback_img" image object houses the duration,
+size, and poition settings.
+
+
+
+
+
+### 1.7 – Variable Subject Wait Time (ITI), 6]:
+This section has the subject wait for a duration which randomly sampled from 
+the logarithmic function
+<p align="center">
+    <i>t(x) = -ln(⁡x)/λ</i>,
+</p>
+such that *t(x) ∈ [ITImin, ITImax]* and each sampled value is a integer 
+multiple of ITIfactor. Additionally, the scaling factor, *λ*, is chosen via 
+*λ = meanITItime/1000*. Figure 3 shows an example of *10,000* samples 
+using *t(x) ∈ [0.5, 4]* ms,  *ITIfactor = 125* ms, and, 
+*meanITItime = 1000* ms.
+
+
+![ISI values](doc/figures/ISIvalues.png?raw=true "ISI values")
+<p align="center">
+    Figure 3<br />  
+    A “typical” sample set of the logarithmic function used to determine our 
+    variable ITI times (*100,000* samples).
+</p>
+
+#### Builder implementation:
+The sections of code used to sample and implement said samples are located under:
+	'SETTINGS' -> "user_settings" -> ‘”Before Experiment”’
+	'Instructions' -> "run_on_start" -> ‘”Before Experiment”’ 
+	'Pre_Trial' -> "pre_trial_stim”  -> ‘”Begin Routine”’
+	'ITI' -> "blank_ITI_stim"
+
+##### 'SETTINGS' -> "user_settings" -> ‘”Before Experiment”’:
+Under Inter-Stimulus Interval settings, this code block holds the user 
+settings for the sampling of the log function above:
+```python
+# Inter-Stimulus Interval settings (see 'Instructions' -> "run_on_start"):
+meanITItime = 1000    # ms
+ITImin      = 500     # ms
+ITImax      = 4000    # ms
+ITIfactor   = 125     # ms
+```
+
+##### 'Instructions' -> "run_on_start" -> ‘”Before Experiment”’:
+Under Functions, the python function `sample_logdist()` performs a single 
+sample of the above logarithmic function. Under `## Generating ITI times… `
+the number of trials being used in the experiment is determined and the 
+function `sample_logdist()` is called to generate an array of ITIs for each.
+
+##### 'Pre_Trial' -> "pre_trial_prep" -> ‘”Begin Routine”’:
+Under the section `# Call ITI time` the current trial number is used to call 
+the appropriate ISI time so it may be used in the following Routine.
+
+##### 'TTI' -> "blank_ITI_stim":
+This black polygon (which is invisible to the subject on the task’s black 
+background) displays for the duration called during the 'Pre_Trial' routine 
+above.
 
 
 
