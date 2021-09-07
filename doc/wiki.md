@@ -1,8 +1,9 @@
-# The Stop Signal Task
+# ♥ The Stop Signal Task ♥
 This is the companion wiki for the Stop Signal Task (SST) written in PsychoPy for 
 Niel McNorton’s lab in 2021 using the PsychoPy builder API. Its purpose is to 
 illustrate where in the SST (Figures 1 (a) & (b)) the settings and code 
-for each element of the flow chart (Figure 1 (c)) can be found.
+for each element of the flow chart (Figure 1 (c)) can be found. For information 
+on the behaviour of the SST see the ReadMe of this repo or Appendix A.
 ![Circle Array](doc/figures/fullsetup.png?raw=true "SST flowchart")
 
 <p align="center">
@@ -15,12 +16,13 @@ for each element of the flow chart (Figure 1 (c)) can be found.
 
 In Figure 1 (c) there are seven steps in a single loop of the task which have 
 been labelled 1 through to 7 respectively. These steps consist of: 
-    1. Sequence start
+    1. Sequence preparation
     2. A subject attention focus circle
     3. Stimulus display
     4. Blank wait screen
 	5. Feedback display
 	6. Variable subject wait time
+
 Additionally, I will also discuss the external functions (Subject GUI and sound 
 testing script) called prior to the sequence shown in Figure 1 and the 
 conditions file (which is used to determine the number of blocks in a task, 
@@ -58,31 +60,120 @@ These are accessed by clicking on the component in the builder.
 
 
 
+
 ## Section 1 - Sequence Elements
 
-### 1.1 Pre-trial & pre-block processing:
-Before each trial, and each block, there are some things which aren't shown in 
-Figure 1 that need to be determined, such as:
-    I.   Preparing SSD staircases    
-    II.  Choosing display messages
+### 1.1 Pre-trial & pre-block processing 1]:
+Before each trial, and each block of trials, there are some things which aren't
+shown in Figure 1 that need to be determined, such as:
+    I.   Counters
+    II.  Preparing stop signal delay (SSD) staircases    
     III. Average participant reaction time
-    IV.  Running a pre-block countdown so participants aren't caught off guard
+    IV.  Choosing display messages
+    V.   Pre-block start countdown
 
-#### I. Preparing SSD staircases:
-T
+#### I. Counters:
+There are two counters used by various other code blocks within the SST 
+experiment, these counters are: `current_trial` and 
+`current_block_trial`. True to their names, the first serves to keep track of 
+the total number of trails that have occured within the experiment and the 
+second keeps track of which block the experiment is up to. These counters are 
+incremented in 'Pre_Trial' -> "pre_trial_prep" -> ‘”Begin Routine”’ under 
+`# Increment counters`.
 
-Following each trial the SSD staircase that was used is adjusted in a 0.05 s 
-increment (see section 1.5). Increasing the delay time if the subject answers 
-a stop trail correctly and decraesing it if they answer incorrectly.
 
-#### II. Choosing display messages:
-T
+#### II. Preparing SSD staircases:
+During each block of trials the participant will experience stop trials 
+(except, of course, during practise runs). When these stop trails occur a
+sound will play some time after the directional stimuli (arrows) are presented.
+This time is called the stop signal delay (SSD). It indicates to the 
+participant that they must refrain from pressing anything. 
+
+The duration of the SSD is controlled by three independant staircases. 
+Which stop trials correspond to which staircases is controlled by the user in
+the `conditions.xlsx` file. At the beginning of the block of trials each 
+staircase is assigned a time equal to *20 %*, *40 %*, and *80 %* of the 
+average of the participant's last 16 reaction times (see Section 1.1 III 
+below).
+
+Following each stop trial, the SSD staircase that was used is adjusted in a 
+0.05 s increment (see section 1.5). Increasing the delay time if the subject 
+answers a stop trail correctly and decreasing it if they answer incorrectly 
+(see Section 1.5).
+
+##### Builder implementation:
+The sections used to for SSDs are located under:
+	'SETTINGS' -> "user_settings" -> ‘”Before Experiment”’
+	'Rest_Period' -> "block_prep" -> ‘”Begin Routine”’
+
+###### 'SETTINGS' -> "user_settings" -> ‘”Before Experiment”’:
+The constants under `# SSD settings ` hold the settings used for defining a 
+participant's inital staircase SSDs and the minimum/maximum times these SSDs
+can be.
+
+###### 'Rest_Period' -> "block_prep" -> ‘”Begin Routine”’:
+The participant's inital staircase times are calculated under 
+`## Calculate SSDs`.
+
 
 #### III. Average participant reaction time:
-T
+During non-practice trials participants will perform stop trials. These trails
+use different delay times which are initally determined by taking specific 
+ratio of the participant's go-trial reaction time averaged over their most 
+recent 16 go-trials. 
 
-#### IV. Running a pre-block countdown:
-T
+##### Builder implementation:
+The storage of the averages and subsequent averaging are located under:
+	'Instructions' -> "run_on_start" -> ‘”Before Experiment”’
+	'go_feedback' -> "checkKeypress_go" -> ‘”Begin Routine”’
+	'Rest_Period' -> "block_prep" -> ‘”Begin Routine”’
+
+###### 'Instructions' -> "run_on_start" -> ‘”Before Experiment”’:
+The section of code under `## Generate necessary variables for...` is used 
+to initalise the array for storing the go-trial reaction times into.
+
+###### 'go_feedback' -> "checkKeypress_go" -> ‘”Begin Routine”’:
+Every time a go-trial occurs the paticipant's reaction time is recorded and
+stored into the `goRTs` array under `# Store reaction time for SSD computation`.
+
+###### 'Rest_Period' -> "block_prep" -> ‘”Begin Routine”’:
+The averaging of the 16 most recent go-trial reaction times is found under 
+`## Average the subject's last 16 RT's`.
+
+
+
+#### IV. Choosing display messages:
+Between blocks display messages are loaded onto the screen to let the 
+participant know what is happening during the experiment.
+
+##### Builder implementation:
+These messages are found and implemented under:
+	'Rest_Period' -> "block_prep" -> ‘”Before Experiment”’
+	'Rest_Period' -> "block_prep" -> ‘”Begin Routine”’
+	'Wait4Celeritas' -> "wait_message"
+
+###### 'Rest_Period' -> "block_prep" -> ‘”Before Experiment”’:
+This is where the constant strings containing each message for the participant 
+are defined.
+
+###### 'Rest_Period' -> "block_prep" -> ‘”Begin Routine”’:
+What message is displayed to the participant depends on whether the upcoming 
+block of trails is a practise block (one where the participant can become 
+familiar with the task) or a real block (where data is actually collected)
+depends on a few logic statements in the code. These logic statements are 
+found under: `## Choose which message to display to the subject`.
+
+###### 'Wait4Celeritas' -> "wait_message":
+This text object is used to display the message to the participant. 
+The properties menu for the "wait_message" text object houses the font, 
+font-size, and text colour settings.
+
+
+#### V. Running a pre-block countdown:
+This routine simply give the participant warning that the next block of trials 
+are about to begin by displaying a 10 second countdown. The routine is self 
+contained and consists of 10 text objects which appear on screen during their 
+respective seconds.
 
 
 
@@ -91,7 +182,7 @@ T
 
 ### 1.2 – Subject attention focus circle, 2]:
 The focus circle shown in Figure 1 (c) serves to draw the patient's attention 
-to the center of the screen before the stimulus is displayed.
+to the centre of the screen before the stimulus is displayed.
 
 #### Builder implementation:
 The sections used to adjust the focus circle are located under:
@@ -135,9 +226,9 @@ and serves as a visual que for the participant that they need to make a
 response. 
 
 II: The arrow image is an on screen print of the correct response, `=>` or 
-`<=`. As was breifly mentioned in the ReadMe of this repository these arrows 
+`<=`. As was briefly mentioned in the ReadMe of this repository these arrows 
 are not pre-determined but generated at the very start of the experiment for 
-all blocks and trials. However the ratio of `<=` to `=>` in each block depends 
+all blocks and trials. However, the ratio of `<=` to `=>` in each block depends 
 on the `L2R_ratio` column of the `conditions.xlsx` file. If no `L2R_ratio` 
 column is present then the `BlockType` column is used with `practice` blocks to 
 *0.5* (or a *50:50* split) and stop blocks to a random ratio.
@@ -188,7 +279,7 @@ for go trials and
 for stop trials.
 
 ##### 'Instructions' -> "run_on_start" -> ‘”Before Experiment”’:
-The code used to generated the left and right arrows can be found under 
+The code used to generate the left and right arrows can be found under 
 `## Generate Stim Arrows` which uses the function `gen_LR_array()`. Once 
 generated, the arrows are stored in the Python variable `direction`.
 
@@ -197,7 +288,7 @@ Under `# Call trial arrow` the current trial's arrow is called from the arrows
 stored in `direction` using the `current_trial` counter (which keeps track of 
 the total number of elapsed trials).
 
-Additonally, this code block is also where whether or not the next trial is a 
+Additionally, this code block is also where whether or not the next trial is a 
 Go trial or a Stop trial is determined (under: `# Check go/stop trial`).
 
 ##### 'go_stim' -> "arrow_stim_go":
@@ -242,24 +333,24 @@ found under `# Default sound values`. These can be overridden if the external
 sound function `TestSound()` is called (see Chapter 2 Section 2).
 
 The delay before the stop sound is played following the arrow stimuli's onset
-is called from the participant's stop signal delay (SSD) staircases. These are 
-initally generated in 'Rest_Period' -> "block_prep" -> ‘”Begin Routine”’ under 
+is called from the participant's SSD staircases. These are 
+initially generated in 'Rest_Period' -> "block_prep" -> ‘”Begin Routine”’ under 
 `## Average the subject's last 16 RT's and calculate starting SSDs` and 
 actively managed in 'stop_feedback' -> "checkKeypress_stop" -> 
-‘”Begin Routine”’ (see 5] - section 1.4).
+‘”Begin Routine”’ (see 5] - section 1.5).
 
 ##### 'stop_stim' -> "stop_sound":
 The properties menu for the "stop_sound" sound object houses the duration 
 setting and the shows the variable names corresponding to the settings 
-outlined  above.
+outlined above.
 
 
 
 
 
 ### 1.4 – ISI delay, 4]:
-Once the stimuli has been shown to the subject there is a short ISI whose time 
-is chosen to enusre the time from the onset of the arrow stimuli to the onset
+Once the stimuli have been shown to the subject there is a short ISI whose time 
+is chosen to ensure the time from the onset of the arrow stimuli to the onset
 of the feedback stimuli is always 1 s. In PsychoPy this is achieved by 
 calculating the remaining time by subtracting the participants reaction time 
 from 1 s and delaying the onset of the feedback by this duration.
@@ -272,19 +363,19 @@ for go trials and
 for stop trials.
 
 ##### 'go_feedback' -> "checkKeypress_go" -> ‘”Begin Routine”’:
-The ISI time is computed as described above in the section of code labeled
+The ISI time is computed as described above in the section of code labelled
 `#Compute ISI wait time after subject response`.
 
 ##### 'stop_feedback' -> "checkKeypress_stop" -> ‘”Begin Routine”’:
 As for the go trials, the ISI time is computed as described above in the 
-section of code labeled `#Compute ISI wait time after subject response`.
+section of code labelled `#Compute ISI wait time after subject response`.
 
 
 
 
 
 ### 1.5 – Feedback, 5]:
-Once the 1 second wait time is over, the participant recieves feedback based 
+Once the 1 second wait time is over, the participant receives feedback based 
 on whether or not they responded to the SST correctly. That is, pressing the 
 correct direction key for go trials and not pressing anything for stop trials.
 
@@ -299,12 +390,12 @@ for go trials and
 for stop trials.
 
 ##### 'go_feedback' -> "checkKeypress_go" -> ‘”Begin Routine”’:
-The chunk of code that determines what feedback the participant recieves is 
+The chunk of code that determines what feedback the participant receives is 
 found under: `## Determine feedback:`.
 
 ##### 'stop_feedback' -> "checkKeypress_go" -> ‘”Begin Routine”’:
 Similarly, the chunk of code that determines what feedback the participant 
-recieves during stop trials is found under: `## Determine feedback:`. However,
+receives during stop trials is found under: `## Determine feedback:`. However,
 this section also houses where the SSD time is adjusted, as mentioned in 
 section 1.1.
 
@@ -314,7 +405,7 @@ size, and poition settings.
 
 ##### 'stop_feedback' -> "stop_feedback_img":
 The properties menu for the "stop_feedback_img" image object houses the duration,
-size, and poition settings.
+size, and position settings.
 
 
 
@@ -329,7 +420,7 @@ the logarithmic function
 such that *t(x) ∈ [ITImin, ITImax]* and each sampled value is a integer 
 multiple of ITIfactor. Additionally, the scaling factor, *λ*, is chosen via 
 *λ = meanITItime/1000*. Figure 3 shows an example of *10,000* samples 
-using *t(x) ∈ [0.5, 4]* ms,  *ITIfactor = 125* ms, and, 
+using *t(x) ∈ [0.5, 4]* s,  *ITIfactor = 125* ms, and, 
 *meanITItime = 1000* ms.
 
 
@@ -385,7 +476,7 @@ above.
 Some functions aren't shown in the flow chart at the beginning of this 
 document (Figure 1). This is because they are called before the 
 builder's sequence is started. Presently there are only two such functions. 
-The GUI used to gather subject information and the the psychopy script for 
+The GUI used to gather subject information and the psychopy script for 
 testing the sound.
 
 
@@ -399,3 +490,23 @@ The
 ##### 'SETTINGS' -> "ext_scripts" -> ‘”Begin Routine”’:
 T
 
+
+
+
+
+## Appendix A - SST task overview
+As is standard with SSTs this task can be broken into two types of trials: 
+go trials and stop trials. A single go trial our SST consists of the 
+following steps: a variable inter-trial interval (ITI), a 0.5 s attention 
+stimulus, a 1 s directional stimulus, and a 0.5 s feedback stimulus. The ITI 
+times are a set of values, between 0.5 and 4 s, which were sampled from a 
+logarithmic distribution (*t(x) = -ln(x)/λ*). While these times will appear 
+random to a participant engaging with the task, they are fixed across all 
+trials. 
+
+In the case of stop trials, all of the steps are the same with the exception
+of the directional stimulus where a stop sound will play some time after the 
+stimulus has been presented. It is the participant's job to refrain from 
+entering a left or right key press when they hear the sound. The time between 
+the onset of the stimuli and the stop sound, known as the stop signal delay 
+(SSD), is drawn from one of three staircase designs.
