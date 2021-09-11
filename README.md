@@ -107,7 +107,7 @@ Builder. When referring to a specific level I will use the syntax:
 'Routine' -> "Component" -> ‘”Property”’. I chose this syntax over the 
 standard folder path syntax to ensure uniqueness. 
 
-![Circle Array](doc/figures/builder_codeblock.png?raw=true "Psychopy SST")
+![Circle Array](doc/figures/builder_codeblock.png?raw=true "PsychoPy SST")
 <p align="center">
     Figure 2<br />  
     An illustration of the location of the Routines, Components, and 
@@ -146,7 +146,7 @@ shown in Figure 1 that need to be determined, such as:
 There are two counters used by various other code blocks within the SST 
 experiment, these counters are: `current_trial` and 
 `current_block_trial`. True to their names, the first serves to keep track of 
-the total number of trails that have occured within the experiment and the 
+the total number of trails that have occurred within the experiment and the 
 second keeps track of which block the experiment is up to. These counters are 
 incremented in 'Pre_Trial' -> "pre_trial_prep" -> ‘”Begin Routine”’ under 
 `# Increment counters`.
@@ -159,7 +159,7 @@ sound will play some time after the directional stimuli (arrows) are presented.
 This time is called the stop signal delay (SSD). It indicates to the 
 participant that they must refrain from pressing anything. 
 
-The duration of the SSD is controlled by three independant staircases. 
+The duration of the SSD is controlled by three independent staircases. 
 Which stop trials correspond to which staircases is controlled by the user in
 the `conditions.xlsx` file. At the beginning of the block of trials each 
 staircase is assigned a time equal to *20 %*, *40 %*, and *80 %* of the 
@@ -178,17 +178,17 @@ The sections used to for SSDs are located under:
 
 ###### 'SETTINGS' -> "user_settings" -> ‘”Before Experiment”’:
 The constants under `# SSD settings ` hold the settings used for defining a 
-participant's inital staircase SSDs and the minimum/maximum times these SSDs
+participant's initial staircase SSDs and the minimum/maximum times these SSDs
 can be.
 
 ###### 'Rest_Period' -> "block_prep" -> ‘”Begin Routine”’:
-The participant's inital staircase times are calculated under 
+The participant's initial staircase times are calculated under 
 `## Calculate SSDs`.
 
 
 #### III. Average participant reaction time:
 During non-practice trials participants will perform stop trials. These trails
-use different delay times which are initally determined by taking specific 
+use different delay times which are initially determined by taking specific 
 ratio of the participant's go-trial reaction time averaged over their most 
 recent 16 go-trials. 
 
@@ -200,10 +200,10 @@ The storage of the averages and subsequent averaging are located under:
 
 ###### 'Instructions' -> "run_on_start" -> ‘”Before Experiment”’:
 The section of code under `## Generate necessary variables for...` is used 
-to initalise the array for storing the go-trial reaction times into.
+to initialise the array for storing the go-trial reaction times into.
 
 ###### 'go_feedback' -> "checkKeypress_go" -> ‘”Begin Routine”’:
-Every time a go-trial occurs the paticipant's reaction time is recorded and
+Every time a go-trial occurs the participant’s reaction time is recorded and
 stored into the `goRTs` array under `# Store reaction time for SSD computation`.
 
 ###### 'Rest_Period' -> "block_prep" -> ‘”Begin Routine”’:
@@ -471,7 +471,7 @@ section 1.1.
 
 ##### 'go_feedback' -> "go_feedback_img":
 The properties menu for the "go_feedback_img" image object houses the duration,
-size, and poition settings.
+size, and position settings.
 
 ##### 'stop_feedback' -> "stop_feedback_img":
 The properties menu for the "stop_feedback_img" image object houses the duration,
@@ -546,30 +546,30 @@ above.
 Some functions aren't shown in the flow chart at the beginning of this 
 document (Figure 1). This is because they are called before the 
 builder's sequence is started. Presently there are only two such functions. 
-The GUI used to gather subject information and the psychopy script for 
+The GUI used to gather subject information and the PsychoPy script for 
 testing the sound.
 
 
 ### 2.1 Subject Information GUI
-Presently, psychoPy's default General User Interface (GUI) for inputting 
+Presently, PsychoPy’s default General User Interface (GUI) for inputting 
 participant information isn't very good and only allows text inputs. To get 
 around this limitation I coded a GUI in Tkinter and call 
-this GUI as a funtion prior to the SST. I chose Tkinter becuase it is included 
+this GUI as a function prior to the SST. I chose Tkinter because it is included 
 as a base package in Python which means that no additional packages need to be 
 loaded when using the SST task on other computers.
 
 Figure 2.1 shows a picture of the GUI. It contains settings that allow the 
-participant to indicate their paticipant number, their handedness, and their 
+participant to indicate their participant number, their handedness, and their 
 ethnicity. The are other options such as gender which are Presently
 uncommented in the Python script. The last setting present in the GUI is a 
-tickbox which allows the user to indicate wheather or not they would like to 
+tick box which allows the user to indicate whether or not they would like to 
 load the sound settings interface, see section 2.2.
 
 ![Tkinter GUI](doc/figures/GUI.png?raw=true "Participant details GUI")
 
 
 #### Implementation:
-##### Psychopy:
+##### PsychoPy:
 The section of code used to import the GUI into the SST is located under:
 	'SETTINGS' -> "ext_scripts" -> ‘”Before Experiment”’
 
@@ -584,15 +584,15 @@ The function where the Tkinter GUI is coded is found in
 
 
 
-### 2.2 Test Sound Psychopy Script
+### 2.2 Test Sound PsychoPy Script
 Because the SST involves playing a sound to the participant it naturally 
 follows that a means to adjust the frequency and volume is needed. This takes
-the form of a seperate PsychoPy experiment made in the PsychoPy builder which
-is used to genreate PsychoPy python script which has then been cut down so 
+the form of a separate PsychoPy experiment made in the PsychoPy builder which
+is used to generate PsychoPy python script which has then been cut down so 
 that it can be imported into the SST builder as its own function. The reason
 for doing it through this convoluted method is that I wanted to test the sound
 natively within the PsychoPy but I didn't want to bloat the SST's flow panel.
-Unfortunately, there isn't presently a method for calling/importing seperate 
+Unfortunately, there isn't presently a method for calling/importing separate 
 PsychoPy experiments into the builder. Hence, manually cutting down the python
 script and manually loading it into the SST experiment.
 
@@ -616,18 +616,18 @@ PsychoPy generates a `TestSoundSettingsv1p1_lastrun.py` file. This file is the
 Python code that, when run in Python, executes the experiment. The long and 
 short method for converting this `.py` script (if you ever change the 
 TestSoundSettings experment) is compare it with `test_soundv1p1.py` under 
-`external_functions`. I have simply commented out the unnesessary sections
+`external_functions`. I have simply commented out the unnecessary sections
 of code (using doc strings to distinguish them from standard comments) so it 
 should be possible to compare the `test_soundv1p1.py` with 
 `TestSoundSettingsv1p1_lastrun.py`.
 
 The longer, and much more esoteric, answer is you will need to comment out the 
 sections of code that generate a window and ExperimentHandler for the 
-expeeriment. This is because we want to have PsychoPy bring up the Sound Test 
+experiment. This is because we want to have PsychoPy bring up the Sound Test 
 Settings inside the window generated by the SST. We then comment out the 
 section that Initialises the PsychoPy components because we want to yield 
 control of this step to the SST experiment. We then comment out the section of 
-code  which initalises Routine "Display" because this too is inside the SST. 
+code which initialises Routine "Display" because this too is inside the SST. 
 Finally, we remove any `thisExp.____` calls that are looking for variables that
 are no longer present, such as `addLoop`.
 
