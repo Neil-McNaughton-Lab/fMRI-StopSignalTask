@@ -25,9 +25,9 @@ the onset of the stimuli and the stop sound, known as the stop signal delay
 
 
 ## Installation:
-The SST is has been created in [PsychoPy3](https://github.com/psychopy/psychopy/releases) 
-and requires PsychoPy3 2021.1.3 or newer to run (provided PsychoPy's "Use 
-PsychoPy version:" option still works).
+The SST is has been created in [PsychoPy3](https://www.psychopy.org/) 
+and requires [PsychoPy3 2021.1.3](https://github.com/psychopy/psychopy/releases) 
+or newer to run (provided PsychoPy's "Use PsychoPy version:" option still works).
 
 
 ## Quick Set Up:
