@@ -64,6 +64,24 @@ column empty will default practise blocks to *0.5* (or a *50:50* split) and
 stop blocks to a random ratio.
 
 
+### Disabling ESC and Fullscreen:
+By default I have left the task with full screen disabled and the Esc key, 
+which exits the task, available. This is because I assume you'd like to test 
+the task before using it on participants. 
+To enable fullscreen you will need to go into the `experiment settings` and 
+untick the `Enable Escape key` tick box in under the __Basic__ tab (see 
+Figure 3). Likewise, to disable the escape key you will need to go into the 
+`experiment settings` and untick the `Full-screen window` tick box in under the 
+__Screen__ tab (see Figure 3).
+
+![Change parraellel port](doc/figures/change_parrallel_port.png?raw=true "Change parraellel port")
+<p align="center" style="font-size:10px">
+    Figure 3<br />  
+    Menus to traverse in order to disable the Escape key and/or enable full 
+    screen.
+</p>
+
+
 
 ---
 ---
@@ -76,7 +94,7 @@ for each element of the flow chart (Figure 1 (c)) can be found. For information
 on the behaviour of the SST see the ReadMe of this repository or Appendix A.
 ![Circle Array](doc/figures/fullsetup.png?raw=true "SST flowchart")
 
-<p align="center">
+<p align="center" style="font-size:10px">
     Figure 1<br />  
     (a) The PsychoPy Builder interface. (b) An expanded flow chart map which 
     is shown in the Builder under the ‘Flow’ section. (c) The experimental 
@@ -108,7 +126,7 @@ Builder. When referring to a specific level I will use the syntax:
 standard folder path syntax to ensure uniqueness. 
 
 ![Circle Array](doc/figures/builder_codeblock.png?raw=true "PsychoPy SST")
-<p align="center">
+<p align="center" style="font-size:10px">
     Figure 2<br />  
     An illustration of the location of the Routines, Components, and 
     Properties inside the PsychoPy Builder interface.
@@ -558,7 +576,7 @@ this GUI as a function prior to the SST. I chose Tkinter because it is included
 as a base package in Python which means that no additional packages need to be 
 loaded when using the SST task on other computers.
 
-Figure 2.1 shows a picture of the GUI. It contains settings that allow the 
+Figure 4 shows a picture of the GUI. It contains settings that allow the 
 participant to indicate their participant number, their handedness, and their 
 ethnicity. The are other options such as gender which are Presently
 uncommented in the Python script. The last setting present in the GUI is a 
@@ -566,7 +584,10 @@ tick box which allows the user to indicate whether or not they would like to
 load the sound settings interface, see section 2.2.
 
 ![Tkinter GUI](doc/figures/GUI.png?raw=true "Participant details GUI")
-
+<p align="center" style="font-size:10px">
+    Figure 4<br />  
+    An screenshot of the participant details GUI.
+</p>
 
 #### Implementation:
 ##### PsychoPy:
