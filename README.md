@@ -74,7 +74,7 @@ Figure 3). Likewise, to disable the escape key you will need to go into the
 `experiment settings` and untick the `Full-screen window` tick box in under the 
 __Screen__ tab (see Figure 3).
 
-![Change parraellel port](doc/figures/change_parrallel_port.png?raw=true "Change parraellel port")
+![DisableFSandESC](doc/figures/DisableFSandESC.png.png?raw=true "Disable Fullscreen and ESC key")
 <p align="center" style="font-size:10px">
     Figure 3<br />  
     Menus to traverse in order to disable the Escape key and/or enable full 
