@@ -21,8 +21,11 @@ the onset of the stimuli and the stop sound, known as the stop signal delay
 (SSD), is drawn from one of three staircase designs.
 
 ![SST Flowchart](doc/figures/SST_flow_2021-07-20.png?raw=true "SST flowchart")
-
-
+<p align="center" style="font-size:10px">
+    Figure 2<br />  
+    Menus you will need to navigate in order to add a new parrallel port to 
+    PsychoPy's list of available ports.
+</p>
 
 ## Installation:
 The SST is has been created in [PsychoPy3](https://www.psychopy.org/) 
@@ -74,7 +77,7 @@ Figure 3). Likewise, to disable the escape key you will need to go into the
 `experiment settings` and untick the `Full-screen window` tick box in under the 
 __Screen__ tab (see Figure 3).
 
-![DisableFSandESC](doc/figures/DisableFSandESC.png.png?raw=true "Disable Fullscreen and ESC key")
+![DisableFSandESC](doc/figures/DisableFSandESC.png?raw=true "Disable Fullscreen and ESC key")
 <p align="center" style="font-size:10px">
     Figure 3<br />  
     Menus to traverse in order to disable the Escape key and/or enable full 
