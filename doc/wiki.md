@@ -69,15 +69,13 @@ PsychoPy Builder is: 'Routine' -> "Component" -> ‘”Property”’.
 ===============================================================================
 ===============================================================================
 # Psychopy Builder Functions
-There are seven steps in a single loop of the Stop Signal Task (SST) which have 
-been labelled 1 through to 7 respectively. These steps, also shown in Figure 1 
-below, consist of: 
-1. Sequence preparation
-2. Subject attention focus circle
-3. Stimulus display
-4. Inter Stimulus Interval (ISI)
-5. Feedback display
-6. Variable Inter Trial Interval  (ITI)
+There are seven steps in a single loop of the Stop Signal Task (SST) which have been labelled 1 through to 7 respectively. These steps, also shown in Figure 1 below, consist of: 
+1. [Sequence preparation](https://github.com/Neil-McNaughton-Lab/fMRI-StopSignalTask/wiki/Sequence-Preparation)
+2. [Subject attention focus circle](https://github.com/Neil-McNaughton-Lab/fMRI-StopSignalTask/wiki/Focus-Circle)
+3. [Stimulus display](https://github.com/Neil-McNaughton-Lab/fMRI-StopSignalTask/wiki/Stimulus-Display)
+4. [Variable inter stimulus interval](https://github.com/Neil-McNaughton-Lab/fMRI-StopSignalTask/wiki/Inter-Stimulus-Interval)
+5. [Feedback display](https://github.com/Neil-McNaughton-Lab/fMRI-StopSignalTask/wiki/Feedback-Display)
+6. [Variable inter trial interval](https://github.com/Neil-McNaughton-Lab/fMRI-StopSignalTask/wiki/Variable-Inter-Trial-Interval)
 
 ------------------
 ![](https://raw.githubusercontent.com/Neil-McNaughton-Lab/fMRI-StopSignalTask/main/doc/figures/fullsetup.png)

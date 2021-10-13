@@ -3,6 +3,8 @@
 Welcome! This is Professor Neil McNaughton's Lab's Stop Signal Task (SST) 
 experiment (see the below figure). This SST was created with the intention of 
 being used in conjunction with functional magnetic resonance imaging (fMRI). 
+Information about where in the project different components are scripted 
+can be found in [the wiki](https://github.com/Neil-McNaughton-Lab/fMRI-StopSignalTask/wiki).
 
 As is standard with SSTs this task can be broken into two types of trials: 
 go trials and stop trials. A single go trial our SST consists of the 
